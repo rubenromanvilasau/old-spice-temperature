@@ -29,12 +29,14 @@ io.on('connection', (socket) => {
       const temperature = parseFloat(data);
       console.log(`Temperatura recibida: ${temperature}°C`);
 
-      if( temperature > 23 ) {
-        socket.emit('temperature', temperature);
-      }else{
-        socket.emit('reset', temperature);
-      }
+      socket.emit('temperature', temperature);
+
     });
+
+    // setInterval( () => {
+    //   const temp = generateRandomTemperature(25,30);
+    //   socket.emit('temperature', temp);
+    // },1000 );
 
   });
 });
