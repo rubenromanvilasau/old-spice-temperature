@@ -40,13 +40,15 @@ export const App = () => {
   const handleTakeFirstTemp = () => {
     const difference = 36 - Number( currentTempRef.current.toString().split('.')[0] ) ;
     firstTempRef.current = currentTempRef.current + difference;
-    setCurrentTemp( firstTempRef.current );
+    setCurrentTemp( 36 );
     setShowTemp( true );
+    
     console.log('Enter key pressed. First temperature:', currentTempRef.current + difference);
   }
 
   const handleTakeSecondTemp = ( event ) => {
     event.preventDefault();
+
     const difference = 36 - Number( currentTempRef.current.toString().split('.')[0] );
     secondTempRef.current = currentTempRef.current + difference;
     console.log('k key pressed. Second temperature:', secondTempRef.current, 'first', firstTempRef.current);
@@ -57,14 +59,23 @@ export const App = () => {
       setShowAnimation( false );
       setShowVictoryAnimation( false );
       setShowTemp( true );
-      setCurrentTemp( secondTempRef.current );
-    }else if( secondTempRef.current <= firstTempRef.current && firstTempRef.current - secondTempRef.current >= toleranceRef.current ){
+      setCurrentTemp( 37 );
+
+      setTimeout( () => {
+        handleReset();
+      },15000);
+
+    }else if( secondTempRef.current <= firstTempRef.current ){
       console.log('TOLERANCE', toleranceRef.current);
       setShowVictoryAnimation( true );
       setShowAnimation( false );
       setShowLossAnimation( false );
       setShowTemp( true );
-      setCurrentTemp( firstTempRef.current );
+      setCurrentTemp( 36 );
+
+      setTimeout( () => {
+        handleReset();
+      },15000);
     }
   }
 
@@ -109,14 +120,13 @@ export const App = () => {
       </>
       }
       { showTemp && 
-        <h1 style={{ color: 'lightblue', fontWeight: 600}}>{ currentTemp.toFixed( 1 ) }°C</h1>
+        <h1 style={{fontWeight: 600}}>{ currentTemp }°C</h1>
       }
       {
         showVictoryAnimation && !showLossAnimation && !showAnimation && 
           (<>
-            <h1>YOU WON</h1>
-            <video key="breaking-bad" width="1024" height="768" autoPlay loop muted>
-              <source src="breaking-bad.mp4" type="video/mp4"/>
+            <video key="win" autoPlay loop muted>
+              <source src="ganar.mp4" type="video/mp4"/>
               Your browser does not support the video tag.
             </video>
           </>)
@@ -124,9 +134,8 @@ export const App = () => {
       {
         showAnimation && !showVictoryAnimation && !showLossAnimation &&
           (<>
-            <h1>NORMAL</h1>
-            <video key="milkiway" width="1024" height="768" autoPlay loop muted>
-              <source src="milkyway.mp4" type="video/mp4"/>
+            <video key="normal" autoPlay loop muted>
+              <source src="normal.mp4" type="video/mp4"/>
               Your browser does not support the video tag.
             </video>
           </>)
@@ -134,9 +143,8 @@ export const App = () => {
       {
         showLossAnimation && !showVictoryAnimation && !showAnimation &&
           (<>
-            <h1>YOU LOST</h1>
-            <video key="flag" width="1024" height="768" autoPlay loop muted>
-              <source src="flag.mp4" type="video/mp4"/>
+            <video key="lost" autoPlay loop muted>
+              <source src="perder.mp4" type="video/mp4"/>
               Your browser does not support the video tag.
             </video>
           </>)

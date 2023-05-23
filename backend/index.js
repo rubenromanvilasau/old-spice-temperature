@@ -4,8 +4,8 @@ const { Server } = require('socket.io');
 const { SerialPort } = require('serialport');
 const { ReadlineParser } = require('@serialport/parser-readline');
 
-// const serialPort = new SerialPort( { path: '/dev/cu.usbmodem11301', baudRate: 9600 } );
-// const parser = serialPort.pipe(new ReadlineParser({ delimiter: '\r\n' }))
+const serialPort = new SerialPort( { path: 'com3', baudRate: 9600 } );
+const parser = serialPort.pipe(new ReadlineParser({ delimiter: '\r\n' }))
 
 const app = express();
 const server = http.createServer( app );
@@ -25,31 +25,27 @@ io.on('connection', (socket) => {
 
   socket.on( 'execute', () => {
 
-    // parser.on('data', ( data ) => {
-    //   const temperature = parseFloat( data );
-    //   console.log(`Temperatura recibida: ${temperature}°C`);
+    parser.on('data', ( data ) => {
+      const temperature = parseFloat( data );
+      console.log(`Temperatura recibida: ${temperature}°C`);
 
-    //   socket.emit('temperature', temperature);
+      socket.emit('temperature', temperature);
 
-    // });
+    });
 
-    setInterval( () => {
-      const temp = obtenerNumeroAleatorio();
-      socket.emit('temperature', temp);
-    },1000 );
+    // setInterval( () => {
+    //   const temp = generateRandomTemperature();
+    //   socket.emit('temperature', temp);
+    // },1000 );
 
   });
 });
 
 /**
- * Generate a random number between 0 and 30
+ * Generate a random number between 15 and 22
  * @returns a number
  */
-const generateRandomTemperature = ( min, max ) => {
-    return Math.floor(Math.random() * ( max - min + 1) + min );
-}
-
-const obtenerNumeroAleatorio = () => {
+const generateRandomTemperature = () => {
   var numero = (Math.random() * (22 - 15) + 15).toFixed(2);
   return parseFloat(numero);
 }

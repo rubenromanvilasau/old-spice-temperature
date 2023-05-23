@@ -1,7 +1,38 @@
+@font-face {
+  font-family: 'DIN 1451 Engschrift';
+  src: url('fonts/Din-Webfont/DIN1451Engschrift.woff2') format('woff2'),
+      url('fonts/Din-Webfont/DIN1451Engschrift.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 #root {
-  max-width: 1280px;
   margin: 0 auto;
   text-align: center;
+  width: 100%;
+}
+
+video{ 
+  width: 100%;
+  height: auto;
+  max-width: 344px;
+}
+
+h1{
+  position: absolute;
+  right: 0;
+  left: 200px;
+  top: 10px;
+  color: #ffff;
+  // transition: 3s;
+  font-family: 'DIN 1451 Engschrift';
+  text-shadow: 4px 3px 1px #A00003;
+  letter-spacing: 5px;
+}
+
+.container{
+  margin: auto;
 }
 
 @media (prefers-reduced-motion: no-preference) {
